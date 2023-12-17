@@ -44,6 +44,10 @@ public class CourseResult extends AbstractResult {
 		setSound(SOUND_CLEAR, "course_clear.wav", SoundType.SOUND, isLoopSound);
 		setSound(SOUND_FAIL, "course_fail.wav", SoundType.SOUND, isLoopSound);
 		setSound(SOUND_CLOSE, "course_close.wav", SoundType.SOUND, false);
+		setSound(SOUND_RANDOMENABLE, "random-enable.wav", SoundType.SOUND,false);
+		setSound(SOUND_RANDOMDISABLE, "random-disable.wav", SoundType.SOUND,false);
+
+		lastRandomToggle = RandomTrainer.isActive();
 
 		for(int i = resource.getCourseGauge().size;i < resource.getCourseBMSModels().length;i++) {
 			FloatArray[] list = new FloatArray[resource.getGrooveGauge().getGaugeTypeLength()];
@@ -188,7 +192,11 @@ public class CourseResult extends AbstractResult {
 				play(SOUND_CLOSE);
 			}
 		}
-
+		if (RandomTrainer.isActive() != lastRandomToggle) {
+			Integer toggleInteger = RandomTrainer.isActive()? 1 : 0;
+			play(SOUND_RANDOMDISABLE - toggleInteger);
+		}
+		lastRandomToggle = RandomTrainer.isActive();
 	}
 
 	public void input() {

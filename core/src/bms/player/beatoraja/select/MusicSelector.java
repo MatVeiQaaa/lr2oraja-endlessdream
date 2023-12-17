@@ -96,6 +96,10 @@ public class MusicSelector extends MainState {
 	public static final int SOUND_OPTIONCHANGE = 4;
 	public static final int SOUND_OPTIONOPEN = 5;
 	public static final int SOUND_OPTIONCLOSE = 6;
+	public static final int SOUND_RANDOMENABLE = 7;
+	public static final int SOUND_RANDOMDISABLE = 8;
+
+	private Boolean lastRandomToggle = RandomTrainer.isActive();
 
 	private BMSPlayerMode play = null;
 
@@ -172,6 +176,8 @@ public class MusicSelector extends MainState {
 		setSound(SOUND_OPTIONCHANGE, "o-change.wav", SoundType.SOUND,false);
 		setSound(SOUND_OPTIONOPEN, "o-open.wav", SoundType.SOUND,false);
 		setSound(SOUND_OPTIONCLOSE, "o-close.wav", SoundType.SOUND,false);
+		setSound(SOUND_RANDOMENABLE, "random-enable.wav", SoundType.SOUND,false);
+		setSound(SOUND_RANDOMDISABLE, "random-disable.wav", SoundType.SOUND,false);
 
 		play = null;
 		showNoteGraph = false;
@@ -276,6 +282,12 @@ public class MusicSelector extends MainState {
 		timer.switchTimer(TIMER_IR_CONNECT_BEGIN, irstate == RankingData.ACCESS);
 		timer.switchTimer(TIMER_IR_CONNECT_SUCCESS, irstate == RankingData.FINISH);
 		timer.switchTimer(TIMER_IR_CONNECT_FAIL, irstate == RankingData.FAIL);
+
+		if (RandomTrainer.isActive() != lastRandomToggle) {
+			Integer toggleInteger = RandomTrainer.isActive()? 1 : 0;
+			play(SOUND_RANDOMDISABLE - toggleInteger);
+		}
+		lastRandomToggle = RandomTrainer.isActive();
 
 		if (play != null) {
 			if (current instanceof SongBar) {

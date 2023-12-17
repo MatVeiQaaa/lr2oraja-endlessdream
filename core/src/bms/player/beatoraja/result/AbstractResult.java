@@ -59,6 +59,10 @@ public abstract class AbstractResult extends MainState {
 	public static final int SOUND_CLEAR = 0;
 	public static final int SOUND_FAIL = 1;
 	public static final int SOUND_CLOSE = 2;
+	public static final int SOUND_RANDOMENABLE = 3;
+	public static final int SOUND_RANDOMDISABLE = 4;
+
+	protected Boolean lastRandomToggle;
 	
 	protected int gaugeType;
 

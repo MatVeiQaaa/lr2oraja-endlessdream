@@ -6,6 +6,7 @@ import static bms.player.beatoraja.skin.SkinProperty.*;
 
 import bms.player.beatoraja.PlayerConfig;
 import bms.player.beatoraja.SkinConfig;
+import bms.player.beatoraja.RandomTrainer;
 import bms.player.beatoraja.input.BMSPlayerInputProcessor;
 import bms.player.beatoraja.input.KeyBoardInputProcesseor.ControlKeys;
 import bms.player.beatoraja.skin.*;
@@ -41,6 +42,12 @@ public class SkinConfiguration extends MainState {
 	private Skin selectedSkin;
 	private PlayerConfig player;
 
+	public static final int SOUND_RANDOMENABLE = 1;
+	public static final int SOUND_RANDOMDISABLE = 2;
+
+	private Boolean lastRandomToggle = RandomTrainer.isActive();
+
+
 	public SkinConfiguration(MainController main, PlayerConfig player) {
 		super(main);
 		this.player = player;
@@ -51,9 +58,16 @@ public class SkinConfiguration extends MainState {
 		skin = (SkinConfigurationSkin) getSkin();
 		loadAllSkins();
 		changeSkinType(SkinType.getSkinTypeById(skin.getDefaultSkinType()));
+		setSound(SOUND_RANDOMENABLE, "random-enable.wav", SoundType.SOUND,false);
+		setSound(SOUND_RANDOMDISABLE, "random-disable.wav", SoundType.SOUND,false);
 	}
 
 	public void render() {
+		if (RandomTrainer.isActive() != lastRandomToggle) {
+			Integer toggleInteger = RandomTrainer.isActive()? 1 : 0;
+			play(SOUND_RANDOMDISABLE - toggleInteger);
+		}
+		lastRandomToggle = RandomTrainer.isActive();
 
 		if (main.getInputProcessor().isControlKeyPressed(ControlKeys.ESCAPE)) {
 			main.saveConfig();

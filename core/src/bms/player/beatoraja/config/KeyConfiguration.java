@@ -86,6 +86,11 @@ public class KeyConfiguration extends MainState {
 
 	private boolean deletepressed = false;
 
+	public static final int SOUND_RANDOMENABLE = 0;
+	public static final int SOUND_RANDOMDISABLE = 1;
+
+	private Boolean lastRandomToggle = RandomTrainer.isActive();
+
 	public KeyConfiguration(MainController main) {
 		super(main);
 
@@ -99,7 +104,6 @@ public class KeyConfiguration extends MainState {
 			header.setDestinationResolution(main.getConfig().getResolution());
 			this.setSkin(new KeyConfigurationSkin(header));
 		}
-
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(
 				Gdx.files.internal("skin/default/VL-Gothic-Regular.ttf"));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
@@ -112,6 +116,10 @@ public class KeyConfiguration extends MainState {
 		controllers = input.getBMInputProcessor();
 		midiinput = input.getMidiInputProcessor();
 		setMode(0);
+
+		setSound(SOUND_RANDOMENABLE, "random-enable.wav", SoundType.SOUND,false);
+		setSound(SOUND_RANDOMDISABLE, "random-disable.wav", SoundType.SOUND,false);
+
 	}
 
 	public void render() {
@@ -296,6 +304,11 @@ public class KeyConfiguration extends MainState {
 					652 * scaleX, (y + 22) * scaleY);
 			sprite.end();
 		}
+		if (RandomTrainer.isActive() != lastRandomToggle) {
+			Integer toggleInteger = RandomTrainer.isActive()? 1 : 0;
+			play(SOUND_RANDOMDISABLE - toggleInteger);
+		}
+		lastRandomToggle = RandomTrainer.isActive();
 	}
 	
 	public void setKeyAssignMode(final int index) {

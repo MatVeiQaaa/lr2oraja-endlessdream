@@ -76,6 +76,10 @@ public class BMSPlayer extends MainState {
 
 	public static final int SOUND_READY = 0;
 	public static final int SOUND_PLAYSTOP = 1;
+	public static final int SOUND_RANDOMENABLE = 2;
+	public static final int SOUND_RANDOMDISABLE = 3;
+
+	private Boolean lastRandomToggle = RandomTrainer.isActive();
 
 	private int state = STATE_PRELOAD;
 
@@ -433,6 +437,9 @@ public class BMSPlayer extends MainState {
 
 		setSound(SOUND_READY, "playready.wav", SoundType.SOUND, false);
 		setSound(SOUND_PLAYSTOP, "playstop.wav", SoundType.SOUND, false);
+		setSound(SOUND_RANDOMENABLE, "random-enable.wav", SoundType.SOUND,false);
+		setSound(SOUND_RANDOMDISABLE, "random-disable.wav", SoundType.SOUND,false);
+
 
 		final String[] guideses = {"guide-pg.wav","guide-gr.wav","guide-gd.wav","guide-bd.wav","guide-pr.wav","guide-ms.wav"};
 		for(int i = 0;i < 6;i++) {
@@ -508,7 +515,12 @@ public class BMSPlayer extends MainState {
 		if(input.startPressed() || input.isSelectPressed()){
 			startpressedtime = micronow;
 		}
-		
+
+		if (RandomTrainer.isActive() != lastRandomToggle) {
+			Integer toggleInteger = RandomTrainer.isActive()? 1 : 0;
+			play(SOUND_RANDOMDISABLE - toggleInteger);
+		}
+		lastRandomToggle = RandomTrainer.isActive();
 
 		switch (state) {
 		// 楽曲ロード

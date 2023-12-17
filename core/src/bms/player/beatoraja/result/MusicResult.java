@@ -47,6 +47,10 @@ public class MusicResult extends AbstractResult {
 		setSound(SOUND_CLEAR, "clear.wav", SoundType.SOUND, isLoopSound);
 		setSound(SOUND_FAIL, "fail.wav", SoundType.SOUND, isLoopSound);
 		setSound(SOUND_CLOSE, "resultclose.wav", SoundType.SOUND, false);
+		setSound(SOUND_RANDOMENABLE, "random-enable.wav", SoundType.SOUND,false);
+		setSound(SOUND_RANDOMDISABLE, "random-disable.wav", SoundType.SOUND,false);
+
+		lastRandomToggle = RandomTrainer.isActive();
 
 		property = ResultKeyProperty.get(resource.getBMSModel().getMode());
 		if (property == null) {
@@ -253,7 +257,11 @@ public class MusicResult extends AbstractResult {
 				}
 			}
 		}
-
+		if (RandomTrainer.isActive() != lastRandomToggle) {
+			Integer toggleInteger = RandomTrainer.isActive()? 1 : 0;
+			play(SOUND_RANDOMDISABLE - toggleInteger);
+		}
+		lastRandomToggle = RandomTrainer.isActive();
 	}
 
 	public void input() {
