@@ -45,7 +45,7 @@ public class SkinConfiguration extends MainState {
 	public static final int SOUND_RANDOMENABLE = 1;
 	public static final int SOUND_RANDOMDISABLE = 2;
 
-	private Boolean lastRandomToggle = RandomTrainer.isActive();
+	private Boolean lastRandomToggle = null;
 
 
 	public SkinConfiguration(MainController main, PlayerConfig player) {
@@ -60,6 +60,8 @@ public class SkinConfiguration extends MainState {
 		changeSkinType(SkinType.getSkinTypeById(skin.getDefaultSkinType()));
 		setSound(SOUND_RANDOMENABLE, "random-enable.wav", SoundType.SOUND,false);
 		setSound(SOUND_RANDOMDISABLE, "random-disable.wav", SoundType.SOUND,false);
+
+		lastRandomToggle = RandomTrainer.isActive();
 	}
 
 	public void render() {

@@ -79,7 +79,7 @@ public class BMSPlayer extends MainState {
 	public static final int SOUND_RANDOMENABLE = 2;
 	public static final int SOUND_RANDOMDISABLE = 3;
 
-	private Boolean lastRandomToggle = RandomTrainer.isActive();
+	private Boolean lastRandomToggle = null;
 
 	private int state = STATE_PRELOAD;
 
@@ -440,6 +440,7 @@ public class BMSPlayer extends MainState {
 		setSound(SOUND_RANDOMENABLE, "random-enable.wav", SoundType.SOUND,false);
 		setSound(SOUND_RANDOMDISABLE, "random-disable.wav", SoundType.SOUND,false);
 
+		lastRandomToggle = RandomTrainer.isActive();
 
 		final String[] guideses = {"guide-pg.wav","guide-gr.wav","guide-gd.wav","guide-bd.wav","guide-pr.wav","guide-ms.wav"};
 		for(int i = 0;i < 6;i++) {

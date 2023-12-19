@@ -20,7 +20,7 @@ public class MusicDecide extends MainState {
 	public static final int SOUND_RANDOMENABLE = 1;
 	public static final int SOUND_RANDOMDISABLE = 2;
 
-	private Boolean lastRandomToggle = RandomTrainer.isActive();
+	private Boolean lastRandomToggle = null;
 
 	public MusicDecide(MainController main) {
 		super(main);
@@ -39,6 +39,9 @@ public class MusicDecide extends MainState {
 		setSound(SOUND_DECIDE, "decide.wav", SoundType.BGM, false);
 		setSound(SOUND_RANDOMENABLE, "random-enable.wav", SoundType.SOUND,false);
 		setSound(SOUND_RANDOMDISABLE, "random-disable.wav", SoundType.SOUND,false);
+
+		lastRandomToggle = RandomTrainer.isActive();
+
 		play(SOUND_DECIDE);
 	}
 
